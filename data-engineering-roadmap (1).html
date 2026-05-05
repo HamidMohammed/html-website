@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30-Day Data Engineering Mastery Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=Libre+Franklin:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ===== CSS VARIABLES ===== */
+  :root {
+    --bg: #0a0e17;
+    --bg2: #0f1520;
+    --bg3: #141c2e;
+    --surface: #192236;
+    --surface2: #1e2a42;
+    --border: rgba(0,220,180,0.12);
+    --border2: rgba(0,220,180,0.25);
+    --accent: #00dcb4;
+    --accent2: #00a8ff;
+    --accent3: #ff6b35;
+    --text: #e8edf5;
+    --text2: #8a9ab8;
+    --text3: #5a6a82;
+    --week1: #00dcb4;
+    --week2: #00a8ff;
+    --week3: #a855f7;
+    --week4: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Libre Franklin', sans-serif;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --shadow-accent: 0 0 40px rgba(0,220,180,0.08);
+  }
+
+  /* ===== RESET ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+  /* ===== TOP PROGRESS BAR ===== */
+  #top-progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 9999;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 3px; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 40px;
+    background: rgba(10,14,23,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-progress-text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  .page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,220,180,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,220,180,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridFade 4s ease-in-out infinite alternate;
+  }
+  @keyframes gridFade { from { opacity: 0.3; } to { opacity: 1; } }
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .hero-orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,220,180,0.15), transparent 70%);
+    top: -100px; right: -100px;
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+  .hero-orb-2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,168,255,0.12), transparent 70%);
+    bottom: 100px; left: -50px;
+    animation: orbFloat 10s ease-in-out infinite reverse;
+  }
+  @keyframes orbFloat {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 30px; height: 1px;
+    background: var(--accent);
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 6vw, 80px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+  .hero-title span { color: var(--accent); }
+  .hero-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-desc {
+    max-width: 640px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text2);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+  }
+  .hero-stat-num {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+  .hero-cta {
+    margin-top: 48px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1s forwards;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius);
+    letter-spacing: 0.05em;
+    transition: all 0.25s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: #00f0c4; box-shadow: 0 0 30px rgba(0,220,180,0.4); transform: translateY(-2px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+    border-radius: var(--radius);
+    border: 1px solid var(--border2);
+    letter-spacing: 0.05em;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SECTION COMMON ===== */
+  section {
+    padding: 100px 0;
+    border-top: 1px solid var(--border);
+  }
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+  .section-subtitle {
+    max-width: 600px;
+    color: var(--text2);
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 60px;
+  }
+
+  /* ===== WHY SECTION ===== */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 60px;
+  }
+  .why-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .why-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .why-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: var(--shadow-accent); }
+  .why-card:hover::before { opacity: 1; }
+  .why-card-icon {
+    width: 44px; height: 44px;
+    background: rgba(0,220,180,0.1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  .why-card h3 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .why-card p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+
+  /* roles comparison */
+  .roles-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .role-col { padding: 28px; background: var(--surface); }
+  .role-col + .role-col { border-left: 1px solid var(--border); }
+  .role-col-header {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .role-badge {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .role-item {
+    font-size: 13px;
+    color: var(--text2);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+  }
+  .role-item:last-child { border-bottom: none; }
+
+  /* ===== HISTORY TIMELINE ===== */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2), var(--week3), var(--week4));
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -39px;
+    top: 18px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 12px var(--accent);
+    transition: all 0.3s;
+  }
+  .timeline-header {
+    cursor: pointer;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.25s;
+    margin-bottom: 2px;
+  }
+  .timeline-header:hover { border-color: var(--border2); background: var(--surface2); }
+  .timeline-header-left { display: flex; align-items: center; gap: 16px; }
+  .timeline-year {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    min-width: 70px;
+  }
+  .timeline-era {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .timeline-chevron {
+    font-size: 12px;
+    color: var(--text3);
+    transition: transform 0.3s;
+  }
+  .timeline-item.open .timeline-chevron { transform: rotate(180deg); }
+  .timeline-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding: 0 20px;
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.8;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+  .timeline-item.open .timeline-body {
+    max-height: 300px;
+    padding: 20px;
+  }
+
+  /* ===== ROADMAP SECTION ===== */
+  .week-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .week-filter-btn {
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .week-filter-btn:hover,
+  .week-filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,220,180,0.08); }
+  .week-filter-btn[data-week="2"].active { border-color: var(--week2); color: var(--week2); background: rgba(0,168,255,0.08); }
+  .week-filter-btn[data-week="3"].active { border-color: var(--week3); color: var(--week3); background: rgba(168,85,247,0.08); }
+  .week-filter-btn[data-week="4"].active { border-color: var(--week4); color: var(--week4); background: rgba(255,107,53,0.08); }
+
+  /* Search */
+  .search-wrapper {
+    position: relative;
+    margin-bottom: 40px;
+    max-width: 400px;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--border2); }
+  .search-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 16px;
+  }
+
+  /* Progress tracker */
+  .progress-tracker {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .progress-tracker-text {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .progress-tracker-text strong { color: var(--accent); font-size: 24px; }
+  .progress-bar-outer {
+    flex: 1;
+    min-width: 200px;
+    height: 8px;
+    background: var(--bg3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text3);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .progress-reset-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  /* Week separator */
+  .week-block { margin-bottom: 60px; }
+  .week-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    border: 1px solid;
+  }
+  .week-label[data-week="1"] { color: var(--week1); border-color: rgba(0,220,180,0.3); background: rgba(0,220,180,0.06); }
+  .week-label[data-week="2"] { color: var(--week2); border-color: rgba(0,168,255,0.3); background: rgba(0,168,255,0.06); }
+  .week-label[data-week="3"] { color: var(--week3); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.06); }
+  .week-label[data-week="4"] { color: var(--week4); border-color: rgba(255,107,53,0.3); background: rgba(255,107,53,0.06); }
+
+  /* Day card */
+  .day-card {
+    margin-bottom: 10px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .day-card.completed { border-color: rgba(0,220,180,0.2); }
+  .day-card.completed .day-header { background: rgba(0,220,180,0.04); }
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    cursor: pointer;
+    background: var(--surface);
+    transition: background 0.2s;
+    user-select: none;
+  }
+  .day-header:hover { background: var(--surface2); }
+  .day-checkbox-wrap { display: flex; align-items: center; }
+  .day-checkbox {
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    border: 2px solid var(--border2);
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    position: relative;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .day-checkbox:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .day-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--bg);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .day-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    min-width: 50px;
+    letter-spacing: 0.05em;
+  }
+  .day-title {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .day-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .day-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(0,220,180,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0,220,180,0.2);
+  }
+  .day-chevron {
+    color: var(--text3);
+    font-size: 12px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .day-card.open .day-chevron { transform: rotate(180deg); }
+
+  .day-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0,1,0,1);
+    background: var(--bg2);
+  }
+  .day-card.open .day-body {
+    max-height: 2000px;
+    transition: max-height 0.5s cubic-bezier(1,0,1,0);
+  }
+  .day-body-inner { padding: 24px; }
+  .day-section {
+    margin-bottom: 24px;
+  }
+  .day-section:last-child { margin-bottom: 0; }
+  .day-section-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .day-section-content {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.8;
+  }
+  .day-section-content ul {
+    list-style: none;
+    padding: 0;
+  }
+  .day-section-content ul li {
+    padding: 5px 0 5px 18px;
+    position: relative;
+  }
+  .day-section-content ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 10px;
+  }
+  .interview-q {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: var(--text2);
+    font-family: var(--font-mono);
+  }
+  .interview-q::before { content: 'Q: '; color: var(--accent); }
+
+  /* ===== TOOLS SECTION ===== */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .tool-card:hover { border-color: var(--border2); box-shadow: var(--shadow-accent); transform: translateY(-3px); }
+  .tool-card-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .tool-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .tool-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .tool-category {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .tool-body { padding: 20px 24px; }
+  .tool-row { margin-bottom: 14px; }
+  .tool-row-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    margin-bottom: 4px;
+  }
+  .tool-row-content { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .tool-scenario {
+    background: var(--bg3);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.7;
+    border-left: 3px solid var(--accent);
+  }
+  .tool-scenario-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* ===== ARCHITECTURE SECTION ===== */
+  .arch-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    overflow-x: auto;
+  }
+  .arch-svg-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 800px;
+    padding: 20px 0;
+  }
+  .arch-node {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .arch-node:hover rect, .arch-node:hover ellipse {
+    filter: brightness(1.3) drop-shadow(0 0 12px rgba(0,220,180,0.5));
+  }
+  .arch-explanation {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.8;
+    transition: all 0.3s;
+    min-height: 80px;
+    display: flex; align-items: center;
+  }
+  .arch-explanation-content {
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .arch-explanation-icon { font-size: 28px; flex-shrink: 0; }
+  .arch-explanation-text strong { color: var(--text); display: block; margin-bottom: 4px; font-family: var(--font-display); font-size: 16px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    text-align: center;
+  }
+  footer p {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 2;
+  }
+  footer span { color: var(--accent); }
+
+  /* ===== SCROLL REVEAL ===== */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    .page-wrapper { padding: 0 16px; }
+    .roles-table { grid-template-columns: 1fr; }
+    .role-col + .role-col { border-left: none; border-top: 1px solid var(--border); }
+    .hero-stats { gap: 24px; }
+    section { padding: 70px 0; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .arch-container { padding: 20px; }
+    .progress-tracker { flex-direction: column; align-items: flex-start; }
+    .day-tags { display: none; }
+  }
+  @media (max-width: 480px) {
+    .week-filters { gap: 8px; }
+    .week-filter-btn { padding: 6px 14px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP PROGRESS -->
+<div id="top-progress-bar"></div>
+
+<!-- NAV -->
+<nav aria-label="Main navigation">
+  <div class="nav-brand">// DE Roadmap</div>
+  <ul class="nav-links">
+    <li><a href="#why">Why DE</a></li>
+    <li><a href="#history">History</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+  </ul>
+  <div class="nav-progress-text" id="nav-progress-text">0% complete</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="border-top: none;">
+  <div class="page-wrapper">
+    <div class="hero">
+      <div class="hero-grid-bg"></div>
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Your 30-Day Transformation</p>
+        <h1 class="hero-title">
+          30-Day <span>Data Engineering</span><br>
+          <em>Mastery</em> Roadmap
+        </h1>
+        <p class="hero-desc">
+          Data is the backbone of every modern company. Without engineers who can reliably build, scale, and maintain data pipelines, even the most talented analysts and scientists work blind. This roadmap is a structured, day-by-day curriculum that takes you from raw fundamentals to senior-level thinking — covering the exact tools, architectures, and mindsets that top companies hire for.
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">30</div>
+            <div class="hero-stat-label">Days</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">4</div>
+            <div class="hero-stat-label">Weeks</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">12+</div>
+            <div class="hero-stat-label">Core Tools</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">∞</div>
+            <div class="hero-stat-label">Career ROI</div>
+          </div>
+        </div>
+        <div class="hero-cta">
+          <a href="#roadmap" class="btn-primary">▶ Start Learning</a>
+          <a href="#why" class="btn-secondary">Why Data Engineering?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY DATA ENGINEERING -->
+<section id="why">
+  <div class="page-wrapper">
+    <div class="section-tag reveal">01 — Context</div>
+    <h2 class="section-title reveal">Why Data Engineering Exists</h2>
+    <p class="section-subtitle reveal">The world didn't always need dedicated data engineers. Here's what changed — and why this role is now one of the most critical in tech.</p>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-card-icon">💥</div>
+        <h3>The Data Explosion</h3>
+        <p>By 2025, the world generates over 120 zettabytes of data annually. Every click, transaction, sensor reading, and API call produces data. Traditional databases were never designed to handle this velocity or volume.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-icon">🏚️</div>
+        <h3>The Failure of Legacy BI</h3>
+        <p>Older BI tools like Crystal Reports or SSRS required clean, pre-modeled data in rigid warehouse schemas. They couldn't adapt to streaming data, semi-structured formats (JSON, Avro), or real-time decision-making demands.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-icon">🌊</div>
+        <h3>Rise of Big Data</h3>
+        <p>Google's MapReduce paper (2004) and the subsequent Hadoop ecosystem proved that commodity hardware could process petabytes of data horizontally. This opened a new engineering frontier that required software engineers who understood distributed systems.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-icon">🔧</div>
+        <h3>Need for Scalable Pipelines</h3>
+        <p>Data Scientists need reliable, clean, timely data. Without engineered pipelines, they spend 80% of their time cleaning spreadsheets. Data Engineers build the infrastructure so that data flows automatically, reliably, and at scale.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-icon">☁️</div>
+        <h3>Cloud & Cost Disruption</h3>
+        <p>AWS, GCP, and Azure made it possible to spin up petabyte-scale storage and compute on demand. This democratized data infrastructure but created massive complexity — requiring engineers who understand both cloud economics and distributed systems.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-icon">💡</div>
+        <h3>AI & ML Demands</h3>
+        <p>Machine learning models are only as good as the data fed into them. Modern ML requires feature engineering, training pipelines, real-time feature stores, and model monitoring — all built by data engineers.</p>
+      </div>
+    </div>
+
+    <h3 class="section-title reveal" style="font-size: 24px; margin-bottom: 24px;">How Data Roles Differ</h3>
+    <div class="roles-table reveal">
+      <div class="role-col">
+        <div class="role-col-header">
+          <span class="role-badge" style="background: var(--week1);"></span>
+          Data Engineer
+        </div>
+        <div class="role-item">Builds & maintains pipelines</div>
+        <div class="role-item">Designs data architecture</div>
+        <div class="role-item">Manages storage & compute</div>
+        <div class="role-item">Python, Spark, SQL, Kafka</div>
+        <div class="role-item">Ensures data quality & reliability</div>
+        <div class="role-item">Optimizes cost & performance</div>
+      </div>
+      <div class="role-col">
+        <div class="role-col-header">
+          <span class="role-badge" style="background: var(--week2);"></span>
+          Data Analyst
+        </div>
+        <div class="role-item">Queries existing data</div>
+        <div class="role-item">Builds dashboards & reports</div>
+        <div class="role-item">Answers business questions</div>
+        <div class="role-item">SQL, Tableau, Power BI</div>
+        <div class="role-item">Discovers trends & patterns</div>
+        <div class="role-item">Communicates to stakeholders</div>
+      </div>
+      <div class="role-col">
+        <div class="role-col-header">
+          <span class="role-badge" style="background: var(--week3);"></span>
+          Data Scientist
+        </div>
+        <div class="role-item">Builds predictive models</div>
+        <div class="role-item">Statistical analysis & A/B tests</div>
+        <div class="role-item">Feature engineering</div>
+        <div class="role-item">Python, R, ML frameworks</div>
+        <div class="role-item">Extracts signals from noise</div>
+        <div class="role-item">Deploys models to production</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section id="history">
+  <div class="page-wrapper">
+    <div class="section-tag reveal">02 — Context</div>
+    <h2 class="section-title reveal">The History of Data Engineering</h2>
+    <p class="section-subtitle reveal">From rigid 90s warehouses to modern cloud-native data stacks — how decades of evolution created the role we know today.</p>
+    <div class="timeline reveal" id="timeline">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="page-wrapper">
+    <div class="section-tag reveal">03 — Curriculum</div>
+    <h2 class="section-title reveal">Interactive 30-Day Roadmap</h2>
+    <p class="section-subtitle reveal">A structured journey from zero to senior-level thinking. Check off each day as you complete it — your progress is saved automatically.</p>
+
+    <div class="progress-tracker reveal">
+      <div class="progress-tracker-text">
+        <strong id="progress-count">0</strong>&nbsp;/ 30 days completed
+      </div>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" id="progress-bar"></div>
+      </div>
+      <div class="progress-tracker-text" id="progress-percent-text">0%</div>
+      <button class="progress-reset-btn" onclick="resetProgress()">Reset Progress</button>
+    </div>
+
+    <div class="search-wrapper reveal">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="search-input" placeholder="Search topics, tools, concepts..." aria-label="Search roadmap">
+    </div>
+
+    <div class="week-filters reveal">
+      <button class="week-filter-btn active" data-week="all" onclick="filterWeek('all', this)">All Weeks</button>
+      <button class="week-filter-btn" data-week="1" onclick="filterWeek(1, this)">Week 1 — Foundations</button>
+      <button class="week-filter-btn" data-week="2" onclick="filterWeek(2, this)">Week 2 — Streaming</button>
+      <button class="week-filter-btn" data-week="3" onclick="filterWeek(3, this)">Week 3 — Cloud & DevOps</button>
+      <button class="week-filter-btn" data-week="4" onclick="filterWeek(4, this)">Week 4 — Senior Level</button>
+    </div>
+
+    <div id="roadmap-container">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="page-wrapper">
+    <div class="section-tag reveal">04 — Toolkit</div>
+    <h2 class="section-title reveal">The Data Engineer's Toolkit</h2>
+    <p class="section-subtitle reveal">Every serious tool in the ecosystem, explained through the lens of the problem it solves — not just what it is, but why it exists.</p>
+    <div class="tools-grid" id="tools-grid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="page-wrapper">
+    <div class="section-tag reveal">05 — Architecture</div>
+    <h2 class="section-title reveal">End-to-End Pipeline Architecture</h2>
+    <p class="section-subtitle reveal">Click any component to understand its role in a production-grade data pipeline at scale.</p>
+
+    <div class="arch-container reveal">
+      <div class="arch-svg-wrapper">
+        <svg width="900" height="200" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data pipeline architecture diagram">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="rgba(0,220,180,0.6)"/>
+            </marker>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Arrows -->
+          <line x1="110" y1="100" x2="163" y2="100" stroke="rgba(0,220,180,0.5)" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="267" y1="100" x2="320" y2="100" stroke="rgba(0,220,180,0.5)" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="424" y1="100" x2="477" y2="100" stroke="rgba(0,220,180,0.5)" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="581" y1="100" x2="634" y2="100" stroke="rgba(0,220,180,0.5)" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="738" y1="100" x2="791" y2="100" stroke="rgba(0,220,180,0.5)" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- Node: Data Source -->
+          <g class="arch-node" data-node="source" onclick="showArchExplanation('source')" role="button" aria-label="Data Source node" tabindex="0">
+            <rect x="5" y="68" width="105" height="64" rx="10" fill="#1a2a3a" stroke="rgba(0,220,180,0.5)" stroke-width="1.5"/>
+            <text x="57" y="92" fill="#00dcb4" font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">📊</text>
+            <text x="57" y="118" fill="#e8edf5" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">Data Source</text>
+          </g>
+
+          <!-- Node: Kafka -->
+          <g class="arch-node" data-node="kafka" onclick="showArchExplanation('kafka')" role="button" aria-label="Kafka node" tabindex="0">
+            <rect x="163" y="68" width="104" height="64" rx="10" fill="#1a1a2e" stroke="rgba(0,168,255,0.5)" stroke-width="1.5"/>
+            <text x="215" y="92" fill="#00a8ff" font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">⚡</text>
+            <text x="215" y="118" fill="#e8edf5" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">Apache Kafka</text>
+          </g>
+
+          <!-- Node: Spark -->
+          <g class="arch-node" data-node="spark" onclick="showArchExplanation('spark')" role="button" aria-label="Spark node" tabindex="0">
+            <rect x="320" y="68" width="104" height="64" rx="10" fill="#1a1a2e" stroke="rgba(255,107,53,0.5)" stroke-width="1.5"/>
+            <text x="372" y="92" fill="#ff6b35" font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">🔥</text>
+            <text x="372" y="118" fill="#e8edf5" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">Apache Spark</text>
+          </g>
+
+          <!-- Node: Data Lake -->
+          <g class="arch-node" data-node="lake" onclick="showArchExplanation('lake')" role="button" aria-label="Data Lake node" tabindex="0">
+            <rect x="477" y="68" width="104" height="64" rx="10" fill="#1a2a1a" stroke="rgba(0,220,180,0.4)" stroke-width="1.5"/>
+            <text x="529" y="92" fill="#00dcb4" font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">🗄️</text>
+            <text x="529" y="118" fill="#e8edf5" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">Data Lake</text>
+          </g>
+
+          <!-- Node: Data Warehouse -->
+          <g class="arch-node" data-node="warehouse" onclick="showArchExplanation('warehouse')" role="button" aria-label="Data Warehouse node" tabindex="0">
+            <rect x="634" y="68" width="104" height="64" rx="10" fill="#1a1a2e" stroke="rgba(168,85,247,0.5)" stroke-width="1.5"/>
+            <text x="686" y="92" fill="#a855f7" font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">🏛️</text>
+            <text x="686" y="118" fill="#e8edf5" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">Data Warehouse</text>
+          </g>
+
+          <!-- Node: BI Dashboard -->
+          <g class="arch-node" data-node="bi" onclick="showArchExplanation('bi')" role="button" aria-label="BI Dashboard node" tabindex="0">
+            <rect x="791" y="68" width="104" height="64" rx="10" fill="#2a1a1a" stroke="rgba(255,107,53,0.4)" stroke-width="1.5"/>
+            <text x="843" y="92" fill="#ff6b35" font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">📈</text>
+            <text x="843" y="118" fill="#e8edf5" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">BI Dashboard</text>
+          </g>
+
+          <!-- Flow labels -->
+          <text x="135" y="90" fill="rgba(0,220,180,0.5)" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle">events</text>
+          <text x="293" y="90" fill="rgba(0,220,180,0.5)" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle">stream</text>
+          <text x="449" y="90" fill="rgba(0,220,180,0.5)" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle">transform</text>
+          <text x="607" y="90" fill="rgba(0,220,180,0.5)" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle">load</text>
+          <text x="764" y="90" fill="rgba(0,220,180,0.5)" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle">model</text>
+        </svg>
+      </div>
+
+      <div class="arch-explanation" id="arch-explanation">
+        <div class="arch-explanation-content">
+          <div class="arch-explanation-icon">👆</div>
+          <div class="arch-explanation-text">
+            <strong>Click any component above</strong>
+            to learn about its role in a production data pipeline and why it exists in this architecture.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="page-wrapper">
+    <p>Built with purpose. <span>30-Day Data Engineering Roadmap</span></p>
+    <p>Progress is saved locally in your browser. Keep showing up every day.</p>
+    <p style="margin-top: 16px; color: var(--accent);">// Data Engineering is infrastructure. Infrastructure is power.</p>
+  </div>
+</footer>
+
+<script>
+// ===================================================
+// DATA
+// ===================================================
+
+const timelineData = [
+  {
+    year: "1990s",
+    era: "The Data Warehouse Era",
+    color: "var(--week1)",
+    content: "Companies began centralizing operational data into dedicated warehouses using products like Teradata and IBM DB2. The ETL (Extract, Transform, Load) pattern was born — data was pulled from source systems nightly, transformed into rigid star schemas, and loaded for analysts. This worked, but was slow, expensive, and couldn't handle unstructured data or real-time queries."
+  },
+  {
+    year: "2000s",
+    era: "ETL Tools & Enterprise BI",
+    color: "var(--week2)",
+    content: "Dedicated ETL tools like Informatica PowerCenter and IBM DataStage abstracted pipeline creation into GUI-driven workflows. Business Intelligence platforms (Cognos, Business Objects) flourished. The problem: these solutions were proprietary, expensive, required specialized certifications, and were completely unequipped for the volume of data the internet was generating. The web was producing data at a scale these tools couldn't comprehend."
+  },
+  {
+    year: "2010s",
+    era: "Hadoop & the Big Data Revolution",
+    color: "var(--week3)",
+    content: "Google published the MapReduce paper (2004) and GFS paper, which inspired Doug Cutting and Mike Cafarella to create Hadoop at Yahoo in 2006. By 2010, Hadoop clusters with hundreds of commodity machines could process petabytes of log data — something that would have cost millions in enterprise hardware. This era birthed the 'Data Engineer' title, as software engineers who could write Java MapReduce jobs were in high demand. Hive brought SQL-like querying to HDFS."
+  },
+  {
+    year: "2015+",
+    era: "Spark, Cloud & the Modern Stack",
+    color: "var(--week4)",
+    content: "Apache Spark, born at UC Berkeley's AMPLab, replaced MapReduce with in-memory processing — 100x faster for iterative algorithms. Simultaneously, cloud providers (AWS EMR, Google BigQuery, Azure HDInsight) offered managed big data infrastructure on demand. Airflow, created at Airbnb, brought programmatic workflow orchestration. Kafka, created at LinkedIn, became the standard for real-time streaming. The toolbox exploded in complexity and capability."
+  },
+  {
+    year: "2020+",
+    era: "The Modern Data Stack",
+    color: "var(--accent2)",
+    content: "A new paradigm emerged: cloud-native, modular, SQL-first. Fivetran automated data ingestion. dbt brought software engineering practices (testing, version control, documentation) to SQL transformations. Snowflake and BigQuery decoupled compute from storage, making scaling effortless. Orchestration matured with Dagster and Prefect. Data contracts and data mesh architectures introduced organizational patterns for managing data at enterprise scale. The Data Engineer became a strategic technical leader."
+  }
+];
+
+const roadmapData = [
+  // WEEK 1
+  { day: 1, week: 1, title: "SQL Mastery — The Foundation of Everything", tags: ["SQL", "PostgreSQL"],
+    objective: "Achieve professional fluency in advanced SQL — the single most important skill for any data professional.",
+    build: "A multi-table analytics query on a sample e-commerce dataset that calculates customer LTV, cohort retention, and product margin — using window functions, CTEs, and subqueries.",
+    concepts: ["Window functions (ROW_NUMBER, RANK, LAG, LEAD, NTILE)", "Common Table Expressions (CTEs) for readability", "EXPLAIN ANALYZE for query optimization", "Indexes: B-tree vs. Hash vs. GiST", "Transaction isolation levels (ACID)"],
+    why: "Every data system — from Kafka to Spark to dbt — eventually reads from or writes to a SQL-queryable store. SQL fluency means you can audit any pipeline, debug any data issue, and collaborate with analysts and scientists without context switching.",
+    interview: ["Write a query to find the top 5 customers by revenue in each country without subqueries.", "What is the difference between RANK() and DENSE_RANK()?", "How would you optimize a slow query joining three 100M-row tables?"]
+  },
+  { day: 2, week: 1, title: "Python for Data Engineering", tags: ["Python", "Pandas"],
+    objective: "Write production-quality Python scripts for data extraction, transformation, and file-based processing.",
+    build: "A Python ETL script that reads from a CSV source, validates schema, applies business logic transformations, handles errors gracefully, and writes clean output to Parquet format.",
+    concepts: ["Pandas DataFrames vs. Arrow for large files", "Generators and lazy evaluation for memory efficiency", "Error handling, retries with exponential backoff", "Logging best practices in pipeline code", "Type hints and Python dataclasses for data modeling"],
+    why: "Python is the glue language of data engineering. Airflow, dbt, PySpark, and most cloud SDKs are Python-first. Writing clean, testable Python separates amateurs from professionals in code reviews.",
+    interview: ["How do you handle a CSV file that's larger than available RAM in Python?", "What's the difference between a list and a generator in the context of ETL?", "How would you write a robust retry mechanism for an API that occasionally times out?"]
+  },
+  { day: 3, week: 1, title: "Data Modeling — Schemas That Scale", tags: ["Modeling", "Kimball"],
+    objective: "Design dimensional data models that serve both analytics queries and data integrity requirements.",
+    build: "A complete star schema for a SaaS company's billing system: fact_subscriptions, dim_customers, dim_products, dim_dates — with documented grain, surrogate keys, and slowly changing dimension (SCD) strategy.",
+    concepts: ["Star schema vs. snowflake schema trade-offs", "Fact table grain — why it's the most important modeling decision", "Slowly Changing Dimensions (SCD Type 1, 2, 3)", "Surrogate keys vs. natural keys", "Conformed dimensions for cross-domain analytics"],
+    why: "A poorly modeled data warehouse creates cascading query correctness issues that are expensive to fix. Good data modeling is the difference between a warehouse that analysts trust and one that they route around with their own spreadsheets.",
+    interview: ["What is the grain of a fact table and why does it matter?", "When would you choose SCD Type 2 over SCD Type 1?", "Design a dimensional model for a ride-sharing company like Uber."]
+  },
+  { day: 4, week: 1, title: "PostgreSQL Deep Dive — Production-Grade RDBMS", tags: ["PostgreSQL", "MVCC"],
+    objective: "Configure and operate PostgreSQL as both an OLTP operational database and a lightweight analytical store.",
+    build: "Deploy PostgreSQL locally, create a partitioned table for time-series data, implement proper indexing, configure connection pooling with PgBouncer, and run EXPLAIN ANALYZE to optimize a slow analytical query.",
+    concepts: ["MVCC (Multi-Version Concurrency Control) architecture", "Table partitioning by range and list", "Partial and covering indexes", "VACUUM and autovacuum tuning", "WAL (Write-Ahead Log) and replication slots"],
+    why: "PostgreSQL is the world's most advanced open-source database and the starting point for most data pipelines. It powers Snowflake's metadata layer, serves as Airflow's backend, and appears as a source in nearly every enterprise data pipeline.",
+    interview: ["What is MVCC and how does it enable concurrent reads without blocking writes?", "How does table partitioning improve query performance?", "You notice your PostgreSQL queries suddenly became 10x slower. What's your debugging process?"]
+  },
+  { day: 5, week: 1, title: "Shell Scripting & Linux for Data Engineers", tags: ["Bash", "Linux"],
+    objective: "Navigate Linux environments confidently, automate file operations, and write shell scripts that integrate with pipeline tooling.",
+    build: "A bash script that monitors a landing directory for new CSV files, validates their schema against an expected header, moves valid files to a processing directory, and sends an alert for malformed files.",
+    concepts: ["Process management: ps, kill, nohup, screen/tmux", "File permissions, ownership, and umask in pipeline contexts", "awk and sed for rapid data wrangling", "Cron jobs vs. systemd timers for scheduling", "SSH, SCP, and secure key management"],
+    why: "Data Engineers spend significant time in Linux environments — remote servers, Kubernetes pods, Docker containers. Shell fluency lets you diagnose issues quickly, automate repetitive operations, and integrate with legacy systems that don't have Python SDKs.",
+    interview: ["How do you find all files modified in the last 24 hours in a directory tree?", "What's the difference between > and >> in a shell script?", "How would you monitor a long-running pipeline process without keeping a terminal open?"]
+  },
+  { day: 6, week: 1, title: "dbt — Analytics Engineering & Data Transformation", tags: ["dbt", "SQL"],
+    objective: "Build a fully tested, documented, and version-controlled dbt project that transforms raw source data into a clean analytics layer.",
+    build: "A dbt project with staging, intermediate, and mart layers for an e-commerce dataset. Include schema tests, custom data tests, model documentation with `doc()` blocks, and an exposure for a downstream BI dashboard.",
+    concepts: ["DAG-based model execution and dependencies", "dbt ref() vs. source() and why the distinction matters", "Testing: not_null, unique, accepted_values, relationships", "Materializations: table, view, incremental, ephemeral", "Macros and jinja templating for reusable SQL"],
+    why: "dbt brought software engineering discipline — version control, testing, CI/CD, documentation — to SQL transformations. Companies that use dbt have transformation layers their analysts can trust. Companies that don't have a spaghetti of undocumented stored procedures.",
+    interview: ["What is the difference between a dbt source and a dbt ref?", "How does an incremental model work in dbt and when would you use it?", "How would you handle a breaking schema change in a source table in dbt?"]
+  },
+  { day: 7, week: 1, title: "Batch Pipeline Project — Week 1 Integration", tags: ["Project", "ETL"],
+    objective: "Build a complete batch ELT pipeline integrating everything from Week 1: extraction, loading, dbt transformation, and documentation.",
+    build: "An end-to-end pipeline that extracts data from a public API (OpenWeatherMap or similar), loads raw JSON to PostgreSQL, transforms it through dbt models into an analytics-ready fact table, and generates a simple HTML report.",
+    concepts: ["ELT vs. ETL paradigm and why cloud shifted the industry to ELT", "Idempotency in batch pipelines — why it's non-negotiable", "Data quality checks at each pipeline stage", "Pipeline documentation and lineage", "Monitoring for pipeline failures"],
+    why: "Integration projects reveal gaps that isolated skill exercises hide. Real pipelines require every layer to work together reliably. Completing this project means you can articulate and demonstrate a working data pipeline in interviews.",
+    interview: ["What does idempotent mean in the context of a data pipeline and why does it matter?", "Describe the ELT pattern and why it became preferred over ETL in cloud data platforms.", "How would you add monitoring and alerting to this pipeline?"]
+  },
+
+  // WEEK 2
+  { day: 8, week: 2, title: "Apache Kafka — Real-Time Event Streaming", tags: ["Kafka", "Streaming"],
+    objective: "Deploy a Kafka cluster, understand its internals deeply, and build a producer-consumer pipeline that processes events with exactly-once semantics.",
+    build: "A Kafka setup with 3 brokers, a topic with 6 partitions and replication factor 3. Write a Python producer that sends e-commerce click events and a consumer that processes them into aggregated session metrics.",
+    concepts: ["Topic partitions, replication, and the role of the Kafka leader", "Consumer groups and partition assignment strategies", "Offset management: auto vs. manual commits", "Exactly-once semantics (EOS) vs. at-least-once", "Log compaction vs. time-based retention"],
+    why: "Modern companies generate events — user clicks, transactions, sensor readings — continuously. Kafka is the standard backbone for decoupling event producers from consumers at scale. LinkedIn, Netflix, Uber, and Airbnb all built their real-time data infrastructure on Kafka.",
+    interview: ["How does Kafka guarantee message ordering within a partition?", "What's the difference between at-least-once and exactly-once delivery in Kafka?", "How would you design a Kafka topic for a global payment processing system?"]
+  },
+  { day: 9, week: 2, title: "Apache Spark — Distributed Processing at Scale", tags: ["Spark", "PySpark"],
+    objective: "Write production PySpark jobs that process large datasets efficiently using Spark's distributed execution model.",
+    build: "A PySpark job that reads raw JSON event logs from storage, parses nested structures, applies filtering and aggregation, handles data skew with salting, and writes partitioned Parquet output with optimized compression.",
+    concepts: ["Spark execution model: Driver, Executors, Tasks, Stages", "DataFrames vs. RDDs — why DataFrames won", "Shuffle operations and why they're expensive", "Partitioning strategies and avoiding data skew", "Broadcast joins for small dimension tables"],
+    why: "When your dataset outgrows a single machine, Spark is the standard answer. It processes petabytes across hundreds of nodes, integrates with every major cloud storage system, and supports SQL, streaming, ML, and graph processing in one framework.",
+    interview: ["What is a shuffle in Spark and why is it expensive?", "How does Spark's lazy evaluation model work and what triggers an action?", "You have a Spark job that's extremely slow on one task. What's likely happening and how do you fix it?"]
+  },
+  { day: 10, week: 2, title: "Spark Streaming & Structured Streaming", tags: ["Spark", "Streaming"],
+    objective: "Build a Spark Structured Streaming job that consumes from Kafka, applies windowed aggregations, and writes results to both a data lake and a real-time cache.",
+    build: "A Structured Streaming pipeline that reads click events from Kafka, computes 5-minute tumbling window conversion rates per product category, writes the results to Delta Lake, and sends high-conversion alerts to a notification topic.",
+    concepts: ["Micro-batch vs. continuous processing models", "Watermarking for late-arriving events", "Tumbling, sliding, and session windows", "Checkpointing and fault tolerance", "Output modes: append, update, complete"],
+    why: "Businesses need to react to events in seconds, not hours. Fraud detection, real-time personalization, and operational monitoring all require streaming pipelines. Structured Streaming's unified batch/stream API means teams maintain one codebase for both.",
+    interview: ["What is a watermark in Spark Structured Streaming and why is it needed?", "What's the difference between a tumbling window and a sliding window?", "How does Structured Streaming handle failures and restart from the correct position?"]
+  },
+  { day: 11, week: 2, title: "Delta Lake & Data Lakehouse Architecture", tags: ["Delta Lake", "Lakehouse"],
+    objective: "Implement a Delta Lake on top of cloud object storage that provides ACID transactions, schema enforcement, and time travel.",
+    build: "A Delta Lake setup where: raw events land in bronze, Spark cleans and enriches into silver, and an aggregated gold layer serves analytics. Implement a CDC (Change Data Capture) merge pattern using Delta's MERGE INTO.",
+    concepts: ["Medallion architecture: Bronze, Silver, Gold layers", "ACID transactions on object storage via Delta transaction log", "Schema evolution and schema enforcement", "Time travel and data versioning", "Z-ordering and data skipping for performance"],
+    why: "Data lakes started as dump grounds for raw data — cheap to store but expensive to query reliably. Delta Lake (and alternatives like Iceberg) add reliability to lakes, creating 'lakehouses' that combine the cost efficiency of lakes with the reliability of warehouses.",
+    interview: ["What problem does Delta Lake's transaction log solve over plain Parquet on S3?", "What is the medallion architecture and why does it separate data into three layers?", "How does Delta Lake support schema evolution without breaking downstream consumers?"]
+  },
+  { day: 12, week: 2, title: "Apache Flink — Advanced Stream Processing", tags: ["Flink", "CEP"],
+    objective: "Understand Flink's architecture, stateful stream processing, and when to choose Flink over Spark Streaming for latency-critical workloads.",
+    build: "A Flink DataStream job that processes financial transactions, maintains rolling aggregates per user in RocksDB state backend, detects fraudulent patterns using Flink's Complex Event Processing (CEP), and emits alerts with sub-second latency.",
+    concepts: ["Flink's event time vs. processing time semantics", "Stateful stream processing with RocksDB state backend", "Savepoints and externalized checkpoints", "Complex Event Processing (CEP) patterns", "Flink SQL for streaming aggregations"],
+    why: "Flink is the choice when Spark's micro-batch latency (~500ms) isn't sufficient. Real-time fraud detection, financial trading systems, and telecom monitoring require sub-100ms processing. Alibaba processes trillions of events per day on Flink.",
+    interview: ["What is the difference between event time and processing time in stream processing?", "When would you choose Flink over Spark Structured Streaming?", "How does Flink's checkpointing work and what is a savepoint?"]
+  },
+  { day: 13, week: 2, title: "Distributed Systems Fundamentals", tags: ["CAP", "Consensus"],
+    objective: "Develop a rigorous mental model of distributed systems concepts that underpin every data infrastructure tool.",
+    build: "A written technical design document analyzing a given data system (e.g., Kafka's replication protocol) through the lens of CAP theorem, explaining consistency/availability trade-offs in concrete failure scenarios.",
+    concepts: ["CAP theorem and its practical limitations (PACELC model)", "Consensus algorithms: Raft vs. Paxos", "Vector clocks and causality in distributed systems", "Two-phase commit vs. sagas for distributed transactions", "Idempotency and its role in distributed pipeline reliability"],
+    why: "Distributed system failures are the most expensive debugging sessions a data engineer faces. Understanding CAP, consensus, and failure modes means you design pipelines that degrade gracefully rather than producing silently incorrect data.",
+    interview: ["Explain CAP theorem. How does Kafka trade off between consistency and availability?", "What is the difference between two-phase commit and the saga pattern?", "A pipeline produces duplicate records after a failure. What distributed systems principle was violated?"]
+  },
+  { day: 14, week: 2, title: "Streaming Pipeline Project — Week 2 Integration", tags: ["Project", "Kafka", "Spark"],
+    objective: "Build a complete real-time analytics pipeline: Kafka ingestion → Spark Structured Streaming → Delta Lake → aggregated metrics API.",
+    build: "A full streaming system for an imaginary ride-sharing platform: drivers send GPS events to Kafka, Spark computes ETA and surge pricing signals per city zone in real-time, Delta Lake stores the stream for historical analysis, and an HTTP endpoint serves current metrics.",
+    concepts: ["End-to-end streaming pipeline design", "Exactly-once processing across Kafka and Delta Lake", "Operational monitoring for streaming pipelines", "Latency vs. throughput trade-offs in streaming systems", "Backpressure handling"],
+    why: "Real-time systems are complex because failures compound quickly. This integration project builds intuition for the operational realities — consumer lag, rebalancing, checkpoint failures — that textbooks skip.",
+    interview: ["Describe the flow of data in a Kafka + Spark + Delta Lake streaming pipeline.", "How do you monitor consumer lag in Kafka and what does growing lag indicate?", "Walk me through how exactly-once semantics is achieved across Kafka and Spark."]
+  },
+
+  // WEEK 3
+  { day: 15, week: 3, title: "Apache Airflow — Pipeline Orchestration", tags: ["Airflow", "DAGs"],
+    objective: "Design, deploy, and monitor production DAGs in Airflow using the TaskFlow API, with proper error handling, retries, and SLA monitoring.",
+    build: "An Airflow DAG that orchestrates the full batch pipeline from Week 1: API extraction, validation, Spark transformation, dbt run, and Slack notification on success/failure — with configurable retries and proper dependency management.",
+    concepts: ["DAG definition, scheduling, and the Airflow scheduler architecture", "Operators, Sensors, and the TaskFlow API (@task decorator)", "XComs for lightweight inter-task communication", "Connections and Variables for secrets management", "SLA misses, callbacks, and alerting"],
+    why: "Without orchestration, pipelines are cron jobs waiting to silently fail at 3am. Airflow provides visibility, retry logic, dependency management, and a UI that lets non-engineers understand pipeline status — all critical for production data systems.",
+    interview: ["What is XCom in Airflow and when should you avoid using it?", "How does Airflow's scheduler work and what is the Executor?", "Design an Airflow DAG that backfills 2 years of historical data partitioned by day."]
+  },
+  { day: 16, week: 3, title: "Cloud Storage & AWS/GCP Fundamentals", tags: ["AWS", "S3", "GCS"],
+    objective: "Design cost-efficient cloud storage architectures, implement proper IAM policies, and understand the performance characteristics of object storage vs. block storage vs. file storage.",
+    build: "An S3 bucket hierarchy for a data lake: raw landing zone, validated zone, and curated zone — with lifecycle policies that move data to Glacier after 90 days, IAM policies scoped to least privilege per zone, and S3 event notifications to trigger Lambda processing.",
+    concepts: ["Object storage vs. block storage vs. file storage", "S3 consistency model and its implications for concurrent writes", "IAM roles, policies, and the principle of least privilege", "Data transfer costs and how to minimize them", "Multi-region replication and disaster recovery"],
+    why: "Object storage (S3, GCS) is the foundation of the modern data stack. Understanding its performance characteristics, consistency model, and cost structure prevents expensive architectural mistakes that are hard to reverse.",
+    interview: ["What is the difference between S3 and HDFS in terms of data access patterns?", "How would you design IAM permissions for a multi-team data lake with strict data access controls?", "What are S3 lifecycle policies and how do they reduce storage costs?"]
+  },
+  { day: 17, week: 3, title: "Snowflake / BigQuery — Cloud Data Warehousing", tags: ["Snowflake", "BigQuery"],
+    objective: "Load, model, and query a large dataset in a cloud data warehouse, understanding its architecture, cost model, and optimization strategies.",
+    build: "Load 100M+ rows into Snowflake or BigQuery. Create a materialized view, implement clustering/partitioning keys, analyze query profiles with the profiler UI, and set up resource monitors to cap compute costs.",
+    concepts: ["Snowflake's multi-cluster shared data architecture", "Virtual warehouses and auto-scaling policies", "Micro-partitioning and automatic clustering in Snowflake", "BigQuery's columnar storage and slot-based billing", "Zero-copy cloning for data isolation"],
+    why: "Snowflake and BigQuery handle the last mile of the data pipeline — serving analytical queries to hundreds of concurrent analysts and BI tools. Their pricing models, performance characteristics, and feature sets determine whether a data platform is profitable to operate.",
+    interview: ["How does Snowflake separate compute from storage and why does this matter?", "What is micro-partitioning in Snowflake and how does clustering improve query performance?", "How does BigQuery's pricing model differ from Snowflake's and when does each become more expensive?"]
+  },
+  { day: 18, week: 3, title: "Docker — Containerizing Data Pipelines", tags: ["Docker", "Containers"],
+    objective: "Package a data pipeline into a production-ready Docker image with proper layer optimization, non-root users, health checks, and multi-stage builds.",
+    build: "A multi-stage Dockerfile for a PySpark job: builder stage installs Python dependencies, runtime stage uses a minimal base image, includes a health check endpoint, runs as non-root, and is pushed to a container registry with a CI pipeline.",
+    concepts: ["Container layers, caching, and build optimization", "Multi-stage builds for minimal image size", "Docker networking: bridge, host, and overlay modes", "Volume mounts vs. environment variables for configuration", "Docker Compose for local multi-container development"],
+    why: "Containers eliminate the 'works on my machine' problem. Packaging a Spark job or Airflow task in Docker ensures the exact same environment runs in development, CI, and production — reducing deployment failures and enabling horizontal scaling.",
+    interview: ["What is the difference between COPY and ADD in a Dockerfile?", "How do multi-stage Docker builds reduce image size?", "Why is it a security concern to run containers as root?"]
+  },
+  { day: 19, week: 3, title: "Kubernetes — Orchestrating Data Workloads", tags: ["Kubernetes", "K8s"],
+    objective: "Deploy data pipeline components (Airflow, Spark) to a Kubernetes cluster, configure resource limits, and implement autoscaling.",
+    build: "Deploy Airflow on Kubernetes using the KubernetesExecutor. Configure a Spark Operator to submit Spark jobs as Kubernetes pods. Implement PodDisruptionBudgets, resource limits, and autoscaling for worker nodes.",
+    concepts: ["Pods, Deployments, Services, and ConfigMaps", "KubernetesExecutor vs. CeleryExecutor for Airflow", "Spark on Kubernetes via the Spark Operator", "Persistent Volumes for stateful workloads", "Horizontal Pod Autoscaler (HPA) and KEDA"],
+    why: "Kubernetes has become the standard runtime for production data workloads. It provides resource isolation, auto-healing, horizontal scaling, and infrastructure-agnosticism — running identically on AWS EKS, GKE, and on-premises. Most DE job postings list Kubernetes.",
+    interview: ["What is the difference between a Kubernetes Deployment and a StatefulSet?", "How does the KubernetesExecutor in Airflow differ from the CeleryExecutor?", "How do you give a Kubernetes pod permission to access an S3 bucket without hardcoding credentials?"]
+  },
+  { day: 20, week: 3, title: "Terraform — Infrastructure as Code", tags: ["Terraform", "IaC"],
+    objective: "Provision a complete cloud data infrastructure (S3, IAM, EMR, Glue, RDS) using Terraform with proper state management, modules, and workspaces.",
+    build: "A Terraform project that provisions: S3 data lake buckets with lifecycle policies, an IAM role for pipeline execution, a Glue catalog database, an RDS PostgreSQL metadata store, and a VPC with proper subnet configuration — all managed as reusable modules.",
+    concepts: ["Terraform state and why remote state (S3 + DynamoDB) is critical", "Modules for reusable infrastructure patterns", "Workspaces for environment separation (dev/staging/prod)", "Data sources and dynamic resource references", "plan/apply workflow and blue-green deployments"],
+    why: "Infrastructure that's manually configured in cloud consoles is invisible, unrepeatable, and dangerous. Terraform makes infrastructure reviewable, versioned, testable, and reproducible — enabling disaster recovery and multi-environment consistency that are impossible otherwise.",
+    interview: ["What is Terraform state and why should it be stored remotely?", "How do Terraform workspaces work and what are their limitations?", "How would you manage secrets in a Terraform project without committing them to git?"]
+  },
+  { day: 21, week: 3, title: "CI/CD for Data Pipelines", tags: ["CI/CD", "GitHub Actions"],
+    objective: "Build an automated CI/CD pipeline that tests, builds, and deploys a data pipeline with proper quality gates.",
+    build: "A GitHub Actions workflow that: runs dbt tests and Pytest unit tests on every PR, builds and pushes a Docker image to ECR on merge to main, deploys updated Airflow DAGs to a staging environment, and requires manual approval for production deployments.",
+    concepts: ["CI/CD pipeline stages: lint, test, build, deploy", "Testing strategies: unit tests for transformations, contract tests for schemas", "Secrets management in CI/CD (GitHub Secrets, Vault)", "DAG deployment strategies: file sync vs. git-sync", "Rollback strategies for failed deployments"],
+    why: "Teams without CI/CD deploy data pipelines manually — meaning one human error can corrupt production data. Automated pipelines ensure every change is tested before it touches production, enabling teams to deploy confidently and frequently.",
+    interview: ["How do you test a dbt model in CI without running it against production data?", "What is a database migration and how do you handle it safely in a CD pipeline?", "Design a CI/CD pipeline for a team that runs Airflow on Kubernetes."]
+  },
+
+  // WEEK 4
+  { day: 22, week: 4, title: "Monitoring, Observability & Data Quality", tags: ["Prometheus", "Grafana"],
+    objective: "Instrument a data pipeline with metrics, logs, and traces. Build Grafana dashboards that detect pipeline anomalies before they impact downstream consumers.",
+    build: "Instrument a Spark job to emit custom Prometheus metrics (records processed, error rates, late events). Build a Grafana dashboard with SLO-based alerting that fires when p99 latency exceeds threshold or record counts deviate more than 2σ from rolling average.",
+    concepts: ["The three pillars of observability: metrics, logs, traces", "Prometheus data model: counters, gauges, histograms, summaries", "Statistical anomaly detection for data volume monitoring", "Data SLOs and error budgets for data quality", "Great Expectations / Soda for automated data quality testing"],
+    why: "Data pipelines fail silently — no NullPointerException, just wrong numbers. 60% of data incidents are discovered by end users, not the engineering team. Observability reverses this: anomalies surface in dashboards before analysts open tickets.",
+    interview: ["What's the difference between monitoring and observability in the context of data pipelines?", "How would you detect that a pipeline is processing 30% fewer records than expected?", "What is a data SLO and how do you define one for a daily batch pipeline?"]
+  },
+  { day: 23, week: 4, title: "Data Governance, Cataloging & Lineage", tags: ["Governance", "DataHub"],
+    objective: "Implement a data catalog that provides column-level lineage, ownership tracking, and data classification for a multi-team data platform.",
+    build: "Set up Apache Atlas or OpenMetadata. Integrate it with dbt (via dbt artifacts) and Airflow to automatically push pipeline lineage. Tag PII columns with sensitivity classifications and configure access policies based on data classification.",
+    concepts: ["Data lineage: column-level vs. table-level", "Data catalogs: OpenMetadata, DataHub, Alation, Collibra", "Data ownership and stewardship models", "PII classification and GDPR/CCPA compliance implications", "Data contracts as API contracts for data producers"],
+    why: "At scale, data platforms have thousands of tables and hundreds of pipelines. Without a catalog, engineers spend hours tracing where a column's value comes from. Governance frameworks prevent regulatory violations that can cost millions in fines.",
+    interview: ["What is column-level data lineage and why does it matter for GDPR compliance?", "How do you implement a data access control policy that varies by sensitivity level?", "What is a data contract and how does it differ from a schema?"]
+  },
+  { day: 24, week: 4, title: "Data Mesh Architecture", tags: ["Data Mesh", "Architecture"],
+    objective: "Evaluate when data mesh is the right architectural pattern, design a data product for a specific domain, and implement the self-serve infrastructure platform pattern.",
+    build: "A technical design document for migrating a centralized data platform to a data mesh: identify domain boundaries (e.g., marketing, payments, logistics), define data product specifications with SLOs, design the shared computational governance layer.",
+    concepts: ["Four principles of data mesh: domain ownership, data as a product, self-serve platform, federated governance", "Domain-oriented ownership vs. centralized data engineering team", "Data products: interface, SLO, discoverability, security", "Comparing data mesh to data fabric architectures", "Organizational implications of data mesh adoption"],
+    why: "As companies scale to hundreds of data producers, the centralized data engineering bottleneck becomes unsustainable. Data mesh solves this by decentralizing ownership while maintaining governance. Knowing when NOT to use data mesh is equally valuable.",
+    interview: ["What are the four principles of data mesh?", "When would you NOT recommend data mesh for an organization?", "How does data mesh change the role of a centralized data engineering team?"]
+  },
+  { day: 25, week: 4, title: "Feature Stores & ML Infrastructure", tags: ["MLOps", "Feature Store"],
+    objective: "Understand the feature store pattern, implement a simplified feature store, and design a pipeline that serves real-time and batch features for ML models.",
+    build: "A feature store implementation using Redis (online store) and Parquet on S3 (offline store) that computes user behavioral features from event streams, serves them via a point-in-time correct API for training, and a low-latency API for inference.",
+    concepts: ["Online vs. offline feature stores and the dual-write pattern", "Point-in-time correctness and training/serving skew", "Feature engineering pipelines: batch vs. streaming computation", "Feature versioning and deprecation strategies", "Open-source feature stores: Feast, Tecton, Hopsworks"],
+    why: "ML models fail in production primarily due to training/serving skew — features computed differently at training time vs. inference time. Feature stores solve this by providing a single source of truth for feature computation, preventing billion-dollar mistakes.",
+    interview: ["What is training/serving skew and how does a feature store prevent it?", "Explain the difference between a point-in-time join and a regular join for ML feature computation.", "Design a feature store for a recommendation system with 10ms latency requirements."]
+  },
+  { day: 26, week: 4, title: "Performance Tuning & Cost Optimization", tags: ["Optimization", "Cost"],
+    objective: "Systematically diagnose and resolve performance bottlenecks in Spark, Snowflake, and Airflow pipelines while reducing cloud costs by 40%+.",
+    build: "Take an intentionally slow and expensive Spark job, profile it using the Spark UI and Ganglia, identify the top 3 performance issues, apply fixes (partitioning, broadcast joins, caching), and document the before/after metrics. Analyze a Snowflake billing report and identify idle warehouse time.",
+    concepts: ["Spark UI: reading DAGs, stage/task timelines, and the Storage tab", "Columnar file formats: Parquet vs. ORC vs. Avro comparison", "Snowflake cost levers: warehouse sizing, clustering, search optimization", "Data skew detection and salting remediation", "Compute right-sizing with cloud metrics"],
+    why: "Data infrastructure is one of the largest engineering cost centers. A 30% cost reduction on a $2M/year cloud bill saves $600K — often more impactful than building new features. Senior engineers are expected to optimize, not just build.",
+    interview: ["You have a Spark job taking 6 hours. Walk me through your optimization process.", "How does columnar storage improve query performance in analytical workloads?", "A Snowflake warehouse is running 24/7 at full capacity. How do you diagnose and reduce costs?"]
+  },
+  { day: 27, week: 4, title: "Security & Compliance in Data Systems", tags: ["Security", "GDPR"],
+    objective: "Implement defense-in-depth security for a data platform: encryption at rest and in transit, column-level security, audit logging, and GDPR deletion workflows.",
+    build: "A security implementation that encrypts sensitive columns in Snowflake using column masking policies, implements row-level security so users only see data from their own region, builds an audit log pipeline for all data access events, and implements a GDPR right-to-erasure workflow.",
+    concepts: ["Encryption at rest vs. in transit vs. at use (homomorphic encryption)", "Column-level security and dynamic data masking", "Row-level security in Snowflake, BigQuery, and dbt", "Audit trails and the regulatory requirements for data access logs", "Data deletion strategies: tombstoning, rewrites, and vacuum"],
+    why: "Data breaches in 2024 cost an average of $4.88M per incident. GDPR fines can reach 4% of global annual revenue. Security isn't a feature to add later — it's a requirement that, when retrofitted, costs 10x more than building it correctly from the start.",
+    interview: ["How would you implement column-level access control so analysts can query user tables without seeing PII?", "Describe a GDPR right-to-erasure implementation for a data lake.", "What is the difference between encryption at rest and encryption in transit?"]
+  },
+  { day: 28, week: 4, title: "System Design for Data Engineers", tags: ["System Design", "Architecture"],
+    objective: "Systematically approach data system design problems using a structured framework, covering scale estimation, component selection, trade-off analysis, and failure scenarios.",
+    build: "Design documents for two classic data engineering system design prompts: (1) Design Twitter's real-time trending topics pipeline, (2) Design a fraud detection system that must process 10,000 transactions/second with <100ms alert latency.",
+    concepts: ["Scale estimation: back-of-envelope calculations for data volume", "Component selection trade-off framework (CAP, cost, team expertise)", "Hot path vs. cold path architecture patterns", "Lambda vs. Kappa vs. Delta architectures", "Database selection decision tree for various access patterns"],
+    why: "System design interviews determine senior-level hiring decisions at top companies. But beyond interviews, the ability to design systems thoughtfully — considering failure modes, cost, team capabilities, and future requirements — defines the engineering impact of a senior DE.",
+    interview: ["Design a pipeline that ingests 1TB of data per day from 500 microservices and makes it queryable within 5 minutes.", "Design YouTube's video view count system that handles 1M views/second.", "What is the Lambda architecture and when would you choose Kappa instead?"]
+  },
+  { day: 29, week: 4, title: "Interview Preparation & Portfolio Strategy", tags: ["Career", "Interview"],
+    objective: "Build a compelling data engineering portfolio, practice the STAR method for behavioral questions, and prepare a technical narrative for your top 3 target companies.",
+    build: "A GitHub portfolio repository with: a polished README, two complete project write-ups (batch + streaming), architecture diagrams, performance benchmarks, and a 5-minute recorded demo of your pipeline running end-to-end.",
+    concepts: ["Portfolio projects that signal senior-level thinking", "Technical blog writing as a credibility multiplier", "STAR framework for behavioral questions in DE interviews", "Compensation negotiation strategies for DE roles", "Open-source contributions as a differentiator"],
+    why: "The best engineers lose offers to worse engineers with better presentation skills. A well-structured portfolio and confident technical storytelling compound your interview performance multiplicatively. Investing one day in positioning pays dividends for years.",
+    interview: ["Tell me about the most challenging data pipeline you've built.", "How do you explain technical decisions to non-technical stakeholders?", "Describe a time when a pipeline failed in production. What was your debugging process and what did you change afterwards?"]
+  },
+  { day: 30, week: 4, title: "Capstone: Senior-Level Architecture Review", tags: ["Capstone", "Architecture"],
+    objective: "Design and present a complete data platform architecture for a hypothetical $100M ARR SaaS company, justifying every technology choice with technical and business rationale.",
+    build: "A complete technical design document (TDD) covering: ingestion layer (Kafka + Fivetran), processing layer (Spark on Kubernetes), storage layer (Delta Lake on S3 + Snowflake), orchestration (Airflow), transformation (dbt), governance (DataHub), observability (Prometheus + Grafana), and CI/CD. Include cost estimation, team structure recommendations, and a 12-month roadmap.",
+    concepts: ["Evaluating build vs. buy decisions with total cost of ownership", "Technology radar and managing technical debt", "Data platform maturity model", "Communicating architectural decisions to executives", "Leading a data platform migration without downtime"],
+    why: "Day 30 is the synthesis of everything. Real senior data engineers don't just code — they design systems that last, justify their choices to executives, manage migration risk, and build platforms that scale with the business. This capstone demonstrates that capability.",
+    interview: ["Design the complete data infrastructure for a company with 50 engineers and 5M users.", "How would you migrate a legacy on-premise Hadoop cluster to a cloud-native architecture in 6 months?", "How do you decide when a pipeline needs to be rewritten vs. optimized?"]
+  }
+];
+
+const toolsData = [
+  {
+    name: "SQL", category: "Query Language", icon: "🗃️", bg: "rgba(0,220,180,0.15)",
+    problem: "How do you query, aggregate, and transform structured data stored in relational databases?",
+    why: "SQL is the universal language of data. Every major data warehouse, pipeline tool, and BI platform speaks SQL. It's been the #1 skill in data job postings for 30+ years — and that won't change.",
+    without: "Without SQL fluency, you cannot work with structured data at any layer of the pipeline. Data engineers, analysts, and scientists who can't write complex SQL are blocked from debugging issues, validating transformations, or ad-hoc investigation.",
+    scenario: "A payment pipeline is producing incorrect revenue totals. The engineer uses SQL window functions to compare daily totals across 90 days, identifies an off-by-one error in the time zone conversion, and fixes it in 20 minutes instead of 2 days."
+  },
+  {
+    name: "Apache Spark", category: "Distributed Processing", icon: "🔥", bg: "rgba(255,107,53,0.15)",
+    problem: "How do you process datasets that are too large to fit on a single machine in a reasonable timeframe?",
+    why: "Spark is the industry standard for large-scale data processing. Its DataFrame API, built-in ML library (MLlib), streaming support, and SQL interface make it a swiss army knife. Netflix, Uber, and LinkedIn process petabytes with Spark daily.",
+    without: "Without distributed processing, a 10TB dataset might take weeks to process on a single machine. Companies would be forced to sample data (losing accuracy) or delay reports by days — making real-time analytics impossible.",
+    scenario: "An e-commerce company runs a nightly PySpark job that joins 2TB of click events with 500M product records, computes personalized recommendation signals for 80M users, and writes the results to their warehouse in 45 minutes."
+  },
+  {
+    name: "Apache Kafka", category: "Event Streaming", icon: "⚡", bg: "rgba(0,168,255,0.15)",
+    problem: "How do you decouple event producers from consumers and process millions of events per second reliably?",
+    why: "Kafka is the backbone of real-time data infrastructure at scale. Its distributed log model ensures no event is lost, enables replay, and allows dozens of independent consumers to process the same event stream without interfering with each other.",
+    without: "Without an event bus, services communicate directly via APIs — creating tight coupling, cascade failures, and no replay capability. When a downstream system fails, events are lost forever. Real-time analytics becomes impossible.",
+    scenario: "Uber uses Kafka to process 1+ trillion events per day — driver GPS updates, ride requests, payment events. Each downstream system (surge pricing, matching, fraud detection, analytics) independently consumes the same events at its own pace."
+  },
+  {
+    name: "Apache Airflow", category: "Orchestration", icon: "🌀", bg: "rgba(168,85,247,0.15)",
+    problem: "How do you schedule, monitor, and manage complex dependencies between dozens of data pipeline tasks?",
+    why: "Airflow's DAG-based model makes pipeline logic reviewable, testable, and observable. The UI shows every run, every failure, and every task's logs. Retry logic and SLA alerts mean failures are caught automatically, not by angry analysts.",
+    without: "Without orchestration, teams use cron jobs — which have no dependency management, no visibility into failures, no retry logic, and no way to backfill historical data. One cron job failing silently can cascade into corrupted analytics.",
+    scenario: "A media company runs 400 daily Airflow DAGs. When an upstream API goes down, Airflow's sensors pause all dependent tasks. When the API recovers, tasks resume automatically — no manual intervention required."
+  },
+  {
+    name: "dbt", category: "Data Transformation", icon: "🔨", bg: "rgba(0,220,180,0.12)",
+    problem: "How do you manage, test, document, and version-control SQL transformations in a data warehouse?",
+    why: "dbt brought software engineering discipline to SQL analytics. Tests catch data quality issues in CI/CD. Documentation auto-generates from code. Version control enables rollbacks. Teams that adopt dbt ship transformations 3x faster with fewer production incidents.",
+    without: "Without dbt, SQL transformations live in stored procedures or undocumented scripts that nobody fully understands. Adding a new analyst metric might break five other reports. Onboarding a new engineer takes months.",
+    scenario: "A fintech company's dbt project has 200 models, 600 tests, and full column-level documentation. A new hire on day 3 adds a model, runs 'dbt test', and deploys to production — all in 4 hours. Without dbt this would take a senior engineer 2 weeks."
+  },
+  {
+    name: "Snowflake / BigQuery", category: "Cloud Data Warehouse", icon: "🏛️", bg: "rgba(168,85,247,0.12)",
+    problem: "How do you serve complex analytical queries to hundreds of concurrent users without managing database infrastructure?",
+    why: "Cloud warehouses separated compute from storage — meaning you pay only for queries run, not for idle capacity. Their columnar storage executes aggregations on billion-row tables in seconds. They auto-scale to handle 500 simultaneous dashboard queries without configuration.",
+    without: "Without a cloud warehouse, companies run analytical queries on their OLTP database — degrading application performance. Or they manage on-premise Redshift clusters, paying for reserved capacity 24/7 even when idle.",
+    scenario: "A retailer runs their Black Friday analysis on BigQuery: 500B rows processed in 8 seconds, costing $4. The same query on their on-premise Teradata cluster would have taken 45 minutes and consumed a DBA's afternoon."
+  },
+  {
+    name: "Docker", category: "Containerization", icon: "🐳", bg: "rgba(0,168,255,0.12)",
+    problem: "How do you ensure a Python pipeline that works locally runs identically in production, CI, and on a colleague's machine?",
+    why: "Containers package code with all its dependencies into a portable, immutable unit. CI runs the same Docker image as production. Scaling out means spinning up more containers. Rollbacks mean deploying the previous image tag.",
+    without: "Without containers, 'dependency hell' is a constant — different Python versions, conflicting library versions, OS differences between dev and prod. Deployment means SSHing into servers and hoping the environment matches. Scaling means manual provisioning.",
+    scenario: "A data engineering team standardizes all Spark jobs as Docker images. When a job fails in production, they reproduce the exact failure locally in 2 minutes by pulling the same image. Fix, build, push, deploy — 25 minutes total."
+  },
+  {
+    name: "Terraform", category: "Infrastructure as Code", icon: "🏗️", bg: "rgba(255,107,53,0.12)",
+    problem: "How do you provision and manage cloud infrastructure consistently, repeatably, and safely across multiple environments?",
+    why: "Terraform's declarative syntax describes the desired state of infrastructure. plan shows exactly what will change before applying. Modules enable DRY infrastructure patterns. State enables drift detection — if someone manually changes a resource, Terraform knows.",
+    without: "Without IaC, cloud infrastructure is configured manually in browser consoles — invisible in version control, impossible to reproduce exactly, and dangerous to change. DR drills fail because nobody knows exactly what infrastructure exists.",
+    scenario: "A data platform team provisions their entire AWS data stack — 3 S3 buckets, 12 IAM roles, an EMR cluster, a VPC — in 8 minutes with 'terraform apply'. When they need a staging environment, they run the same command with a different workspace."
+  },
+  {
+    name: "Prometheus & Grafana", category: "Observability", icon: "📊", bg: "rgba(0,220,180,0.08)",
+    problem: "How do you know when a data pipeline is failing, degraded, or producing incorrect data before end users notice?",
+    why: "Prometheus scrapes metrics from pipeline components and stores them as time series. Grafana visualizes them as real-time dashboards with configurable alerts. Together, they turn reactive 'the data is wrong' tickets into proactive SLO-based monitoring.",
+    without: "Without observability, pipeline health is inferred from whether analysts complain. Data engineers discover failures by checking manually or receiving tickets. Silent failures — where data is produced but incorrect — go undetected for days.",
+    scenario: "A streaming pipeline's Grafana dashboard fires a PagerDuty alert when the record count drops 25% below the rolling average. The on-call engineer is paged before analysts open Looker. Root cause: an upstream schema change. Fixed in 30 minutes."
+  },
+  {
+    name: "PostgreSQL", category: "Relational Database", icon: "🐘", bg: "rgba(0,168,255,0.08)",
+    problem: "How do you store, query, and manage structured relational data with ACID guarantees at scale?",
+    why: "PostgreSQL's extensibility (JSON support, custom types, PostGIS for geospatial), MVCC concurrency model, and battle-tested reliability make it the default choice for Airflow metadata, pipeline state, operational databases, and even lightweight analytics.",
+    without: "Without a reliable RDBMS, operational data becomes inconsistent — partial writes leave data in invalid states, concurrent updates cause race conditions, and there's no transactional guarantee that related records are updated atomically.",
+    scenario: "Airflow uses PostgreSQL to store all DAG run history, task states, connections, and XComs. When the Airflow scheduler fails mid-run, it restarts and reads exactly which tasks completed and which need retry — all from PostgreSQL transactions."
+  }
+];
+
+const archExplanations = {
+  source: { icon: "📊", title: "Data Source", text: "Raw data originates here — databases (PostgreSQL, MySQL), APIs, IoT sensors, mobile apps, SaaS platforms (Salesforce, Stripe), log files, and third-party feeds. The diversity and unreliability of sources is what makes data engineering hard: schemas change without notice, APIs go down, and volumes spike unpredictably." },
+  kafka: { icon: "⚡", title: "Apache Kafka (Message Broker)", text: "Kafka acts as the durable, distributed buffer between data producers and consumers. Producers write events to Kafka topics; consumers read at their own pace. If Spark goes down, events accumulate in Kafka and are processed when it recovers. Kafka provides durability (replication across brokers), ordering guarantees within partitions, and exactly-once delivery semantics." },
+  spark: { icon: "🔥", title: "Apache Spark (Processing Engine)", text: "Spark reads events from Kafka, applies business logic at scale — parsing, joining with dimension data, aggregating, validating — and writes clean, structured output. For batch workloads it reads from the data lake directly. Spark runs across a cluster of machines, processing terabytes in minutes that would take hours on a single node." },
+  lake: { icon: "🗄️", title: "Data Lake (Object Storage)", text: "The data lake (S3, GCS, ADLS) stores raw and processed data as files (Parquet, Avro, ORC, Delta) at petabyte scale for cents per GB/month. Unlike a database, it stores everything — even data whose schema or purpose isn't fully known yet. The lake uses the medallion architecture: raw bronze, cleaned silver, aggregated gold." },
+  warehouse: { icon: "🏛️", title: "Data Warehouse (Snowflake / BigQuery)", text: "The warehouse contains curated, modeled, structured data optimized for analytical queries. dbt models define the transformation logic that turns lake data into business entities (customers, orders, revenue). The warehouse serves BI tools with sub-second query performance on billions of rows, thanks to columnar storage, micro-partitioning, and cluster computing." },
+  bi: { icon: "📈", title: "BI Dashboard (Tableau / Looker / Metabase)", text: "Business intelligence tools connect to the warehouse and render visualizations for executives, product managers, and analysts. Dashboards show revenue trends, user retention, operational metrics. The quality of every visualization depends entirely on the reliability of the pipeline upstream — which is why data engineering exists." }
+};
+
+// ===================================================
+// RENDER FUNCTIONS
+// ===================================================
+
+function renderTimeline() {
+  const container = document.getElementById('timeline');
+  timelineData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'timeline-item';
+    div.innerHTML = `
+      <div class="timeline-dot" style="background: ${item.color}; box-shadow: 0 0 12px ${item.color};"></div>
+      <div class="timeline-header" onclick="toggleTimeline(this)">
+        <div class="timeline-header-left">
+          <span class="timeline-year">${item.year}</span>
+          <span class="timeline-era">${item.era}</span>
+        </div>
+        <span class="timeline-chevron">▼</span>
+      </div>
+      <div class="timeline-body">${item.content}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function toggleTimeline(header) {
+  const item = header.closest('.timeline-item');
+  item.classList.toggle('open');
+}
+
+function renderRoadmap() {
+  const container = document.getElementById('roadmap-container');
+  const weeks = [1,2,3,4];
+  const weekLabels = {
+    1: 'Week 1 — Foundations & Batch Processing',
+    2: 'Week 2 — Streaming & Distributed Systems',
+    3: 'Week 3 — Cloud, Orchestration & DevOps',
+    4: 'Week 4 — Senior-Level Thinking & Interview Prep'
+  };
+
+  weeks.forEach(week => {
+    const weekDays = roadmapData.filter(d => d.week === week);
+    const block = document.createElement('div');
+    block.className = 'week-block';
+    block.dataset.week = week;
+
+    block.innerHTML = `<div class="week-label" data-week="${week}">
+      ${week === 1 ? '🌱' : week === 2 ? '⚡' : week === 3 ? '☁️' : '🎓'} ${weekLabels[week]}
+    </div>`;
+
+    weekDays.forEach(day => {
+      const card = document.createElement('div');
+      card.className = 'day-card';
+      card.id = `day-${day.day}`;
+      card.dataset.week = week;
+      card.dataset.title = day.title.toLowerCase();
+      card.dataset.tags = day.tags.join(' ').toLowerCase();
+
+      const tagsHtml = day.tags.map(t => `<span class="day-tag">${t}</span>`).join('');
+      const iqs = day.interview.map(q => `<div class="interview-q">${q}</div>`).join('');
+      const concepts = day.concepts.map(c => `<li>${c}</li>`).join('');
+
+      card.innerHTML = `
+        <div class="day-header" onclick="toggleDay(${day.day})">
+          <div class="day-checkbox-wrap">
+            <input type="checkbox" class="day-checkbox" id="check-${day.day}" data-day="${day.day}" onclick="event.stopPropagation(); handleCheck(${day.day})" aria-label="Mark day ${day.day} complete">
+          </div>
+          <span class="day-num">DAY ${String(day.day).padStart(2,'0')}</span>
+          <span class="day-title">${day.title}</span>
+          <div class="day-tags">${tagsHtml}</div>
+          <span class="day-chevron">▼</span>
+        </div>
+        <div class="day-body">
+          <div class="day-body-inner">
+            <div class="day-section">
+              <div class="day-section-title">🎯 Learning Objective</div>
+              <div class="day-section-content">${day.objective}</div>
+            </div>
+            <div class="day-section">
+              <div class="day-section-title">🛠 What You Will Build</div>
+              <div class="day-section-content">${day.build}</div>
+            </div>
+            <div class="day-section">
+              <div class="day-section-title">🧠 Key Concepts</div>
+              <div class="day-section-content"><ul>${concepts}</ul></div>
+            </div>
+            <div class="day-section">
+              <div class="day-section-title">💼 Why This Matters in Industry</div>
+              <div class="day-section-content">${day.why}</div>
+            </div>
+            <div class="day-section">
+              <div class="day-section-title">❓ Interview Questions</div>
+              <div class="day-section-content">${iqs}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      block.appendChild(card);
+    });
+    container.appendChild(block);
+  });
+}
+
+function toggleDay(dayNum) {
+  const card = document.getElementById(`day-${dayNum}`);
+  card.classList.toggle('open');
+}
+
+function handleCheck(dayNum) {
+  const cb = document.getElementById(`check-${dayNum}`);
+  const card = document.getElementById(`day-${dayNum}`);
+  const completed = JSON.parse(localStorage.getItem('de-progress') || '[]');
+  if (cb.checked) {
+    card.classList.add('completed');
+    if (!completed.includes(dayNum)) completed.push(dayNum);
+  } else {
+    card.classList.remove('completed');
+    const idx = completed.indexOf(dayNum);
+    if (idx > -1) completed.splice(idx, 1);
+  }
+  localStorage.setItem('de-progress', JSON.stringify(completed));
+  updateProgress();
+}
+
+function loadProgress() {
+  const completed = JSON.parse(localStorage.getItem('de-progress') || '[]');
+  completed.forEach(dayNum => {
+    const cb = document.getElementById(`check-${dayNum}`);
+    const card = document.getElementById(`day-${dayNum}`);
+    if (cb) { cb.checked = true; card.classList.add('completed'); }
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const completed = JSON.parse(localStorage.getItem('de-progress') || '[]');
+  const count = completed.length;
+  const pct = Math.round((count / 30) * 100);
+  document.getElementById('progress-count').textContent = count;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-percent-text').textContent = pct + '%';
+  document.getElementById('top-progress-bar').style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+  document.getElementById('nav-progress-text').textContent = pct + '% complete';
+}
+
+function resetProgress() {
+  if (confirm('Reset all progress? This cannot be undone.')) {
+    localStorage.removeItem('de-progress');
+    document.querySelectorAll('.day-checkbox').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.day-card').forEach(c => c.classList.remove('completed'));
+    updateProgress();
+  }
+}
+
+function filterWeek(week, btn) {
+  document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.week-block').forEach(block => {
+    if (week === 'all' || parseInt(block.dataset.week) === week) {
+      block.style.display = 'block';
+    } else {
+      block.style.display = 'none';
+    }
+  });
+}
+
+function renderTools() {
+  const grid = document.getElementById('tools-grid');
+  toolsData.forEach(tool => {
+    const card = document.createElement('div');
+    card.className = 'tool-card';
+    card.innerHTML = `
+      <div class="tool-card-header">
+        <div class="tool-icon" style="background: ${tool.bg}">${tool.icon}</div>
+        <div>
+          <div class="tool-name">${tool.name}</div>
+          <div class="tool-category">${tool.category}</div>
+        </div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-row">
+          <div class="tool-row-label">Problem it solves</div>
+          <div class="tool-row-content">${tool.problem}</div>
+        </div>
+        <div class="tool-row">
+          <div class="tool-row-label">Why companies use it</div>
+          <div class="tool-row-content">${tool.why}</div>
+        </div>
+        <div class="tool-row">
+          <div class="tool-row-label">What happens without it</div>
+          <div class="tool-row-content">${tool.without}</div>
+        </div>
+        <div class="tool-scenario">
+          <span class="tool-scenario-label">📍 Real-World Scenario</span>
+          ${tool.scenario}
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function showArchExplanation(nodeId) {
+  const exp = archExplanations[nodeId];
+  if (!exp) return;
+  const el = document.getElementById('arch-explanation');
+  el.innerHTML = `
+    <div class="arch-explanation-content">
+      <div class="arch-explanation-icon">${exp.icon}</div>
+      <div class="arch-explanation-text">
+        <strong>${exp.title}</strong>
+        ${exp.text}
+      </div>
+    </div>
+  `;
+  el.style.borderColor = 'var(--border2)';
+}
+
+// Search
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('search-input');
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase();
+    document.querySelectorAll('.day-card').forEach(card => {
+      const title = card.dataset.title || '';
+      const tags = card.dataset.tags || '';
+      const match = !q || title.includes(q) || tags.includes(q);
+      card.style.display = match ? 'block' : 'none';
+    });
+  });
+});
+
+// Scroll progress
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('top-progress-bar').style.width = pct + '%';
+
+  // Reveal animations
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 60) el.classList.add('visible');
+  });
+});
+
+// Init
+renderTimeline();
+renderRoadmap();
+renderTools();
+loadProgress();
+
+// Initial reveal check
+setTimeout(() => {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 60) el.classList.add('visible');
+  });
+}, 100);
+</script>
+</body>
+</html>
